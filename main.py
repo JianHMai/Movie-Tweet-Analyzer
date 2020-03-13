@@ -4,6 +4,8 @@ from twitterscraper import query_tweets
 import datetime as dt
 import nltk
 import glob, os
+from nltk.corpus import stopwords 
+from nltk.stem import PorterStemmer 
 from nltk import word_tokenize
 import csv
 
@@ -34,7 +36,7 @@ def get_tweets(movie):
     hashtag = "#" + movie
 
     # Filename to save 
-    filename = movie + ".csv"
+    filename = movie + ".txt"
     # Create and save file in filename
     files = open(filename, 'w', encoding='utf8')
 
@@ -48,23 +50,29 @@ def get_tweets(movie):
 
         # If twitter is classified as English, save to the file
         if str(language) == 'eng':
-            files.write(t.text + ',')
+            files.write(t.text + "\n")
     files.close()
 
 # Function to preprocess csv file
 def preprocess(file):
-    # Open file
-    with open(file) as csv_file:
-        read_csv = csv.reader(csv_file)
-        for text in read_csv:
-            # Each row that the csv reader returns, pass it into tokenize for NLTK
-            print(word_tokenize(str(text)))
-
+    # Import stemmer
+    ps = PorterStemmer()
+    # Import list from NLTK library that contains stop words
+    stop_words = set(stopwords.words('english'))
+    # Open and reads file and split it into objects
+    words = open(file).read().split()
+    # Loop to go through list of words
+    for word in words: 
+        # Check in word is a stop word
+        if not word in stop_words:
+            print(word)
+            # Calls the porter algo to stem 
+            print(ps.stem(word))
 
 if __name__ == '__main__':
     get_recent_movies()
-    # Location to look for CSV files
+    # Location to look for txt files
     for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\"):
-        if file.endswith(".csv"):
+        if file.endswith(".txt"):
             # Pass in file location for every CSV file found
             preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\", file))
