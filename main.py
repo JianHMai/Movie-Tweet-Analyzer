@@ -10,6 +10,7 @@ from nltk import word_tokenize
 import csv
 import re
 from textblob import TextBlob
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # function to retrieve list of current playing movies
 def get_recent_movies():
@@ -86,6 +87,9 @@ def train():
         for row in csvreader:
             review = row[0]
             sentiment = row[1]
+
+            # Vectorization 
+            vectorizer = TfidfVectorizer
             
 
 if __name__ == '__main__':
