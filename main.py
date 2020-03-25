@@ -88,7 +88,8 @@ def train():
             review = row[0]
             sentiment = row[1]
 
-            # Vectorization 
+            # TO DO
+            # Vectorization
             vectorizer = TfidfVectorizer
             
 
