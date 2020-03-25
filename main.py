@@ -8,6 +8,8 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer 
 from nltk import word_tokenize
 import csv
+import re
+from textblob import TextBlob
 
 # function to retrieve list of current playing movies
 def get_recent_movies():
@@ -25,10 +27,10 @@ def get_recent_movies():
 # function to retrieve tweets
 def get_tweets(movie):
     # Starting date
-    begin_date = dt.date(2020,3,8)
+    begin_date = dt.date(2020,3,19)
 
     # Ending date
-    end_date = dt.date(2020,3,9)
+    end_date = dt.date(2020,3,21)
     limit = 1
     lang = 'english'
     
@@ -44,30 +46,47 @@ def get_tweets(movie):
     tweets = query_tweets(hashtag, begindate = begin_date, enddate = end_date, limit = limit, lang = lang)
     # Each tweet returned
     for t in tweets:
-        tc = nltk.classify.textcat.TextCat() 
-        # Classify each tweet
-        language = tc.guess_language(t.text)
 
-        # If twitter is classified as English, save to the file
-        if str(language) == 'eng':
+        # Remove mentions and link from data
+        t.text = re.sub(r"(?:\@|https?\://)\S+", "", t.text)
+        # Remove media url from data
+        t.text = re.sub(r"pic.twitter.com\S+", "", t.text)
+
+        # If tweet is classified as English, save to the file
+        if TextBlob(t.text).detect_language() == 'en':
             files.write(t.text + "\n")
     files.close()
 
 # Function to preprocess csv file
-def preprocess(file):
+def preprocess(location,name):
+    # Filename to save 
+    filename = name + "_new.txt"
+    # Create and save file in filename
+    files = open(filename, 'w', encoding='utf8')
+
     # Import stemmer
     ps = PorterStemmer()
     # Import list from NLTK library that contains stop words
     stop_words = set(stopwords.words('english'))
     # Open and reads file and split it into objects
-    words = open(file).read().split()
+    words = open(location).read().split()
+
     # Loop to go through list of words
     for word in words: 
         # Check in word is a stop word
         if not word in stop_words:
-            print(word)
-            # Calls the porter algo to stem 
-            print(ps.stem(word))
+            # Calls the porter algo to stem
+            files.write(ps.stem(word) + " ")
+    files.close()
+
+# Function to train model using SVM
+def train():
+    with open("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\dataset.csv", 'r') as csvfile: 
+        csvreader = csv.reader(csvfile)
+        for row in csvreader:
+            review = row[0]
+            sentiment = row[1]
+            
 
 if __name__ == '__main__':
     get_recent_movies()
@@ -75,4 +94,5 @@ if __name__ == '__main__':
     for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\"):
         if file.endswith(".txt"):
             # Pass in file location for every CSV file found
-            preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\", file))
+            preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\", file),file)
+    train()
