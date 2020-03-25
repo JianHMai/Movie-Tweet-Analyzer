@@ -61,7 +61,7 @@ def get_tweets(movie):
 # Function to preprocess csv file
 def preprocess(location,name):
     # Filename to save 
-    filename = name + "_new.txt"
+    filename = name[:-4] + "_new.txt"
     # Create and save file in filename
     files = open(filename, 'w', encoding='utf8')
 
