@@ -70,7 +70,7 @@ def preprocess(location,name):
     # Import list from NLTK library that contains stop words
     stop_words = set(stopwords.words('english'))
     # Open and reads file and split it into objects
-    words = open(location).read().split()
+    words = open(location,encoding='utf8').read().split()
 
     # Loop to go through list of words
     for word in words: 
@@ -94,10 +94,10 @@ def train():
             
 
 if __name__ == '__main__':
-    get_recent_movies()
+    #get_recent_movies()
     # Location to look for txt files
     for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\"):
         if file.endswith(".txt"):
             # Pass in file location for every CSV file found
             preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\", file),file)
-    train()
+    #train()
