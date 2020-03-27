@@ -94,10 +94,10 @@ def train():
             
 
 if __name__ == '__main__':
-    #get_recent_movies()
+    get_recent_movies()
     # Location to look for txt files
     for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\"):
         if file.endswith(".txt"):
             # Pass in file location for every CSV file found
             preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\", file),file)
-    #train()
+    train()
