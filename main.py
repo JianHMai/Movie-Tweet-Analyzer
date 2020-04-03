@@ -84,7 +84,7 @@ def preprocess(location,name):
 
 # Function to train model using SVM
 def train():
-    location = "C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\dataset2.csv"
+    location = "C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\dataset.csv"
     with open(location, 'r') as csvfile: 
         csvreader = csv.reader(csvfile)
         for row in csvreader:
