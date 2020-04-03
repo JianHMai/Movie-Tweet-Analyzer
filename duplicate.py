@@ -84,12 +84,21 @@ def preprocess(location,name):
 
 # Function to train model using SVM
 def train():
+    review = []
+    sentiment = []
+
     location = "C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\dataset2.csv"
     with open(location, 'r') as csvfile: 
         csvreader = csv.reader(csvfile)
+        # Skip header row
+        next(csvreader)
         for row in csvreader:
-            review = row[0]
-            sentiment = row[1]
+            # Add review to list 
+            review.append(row[0])
+            # Add sentiment to list with 1 given positive and 0 given negative
+            if row[1] == 'positive':
+                sentiment.append(1)
+            else: sentiment.append(0)
 
             # # Import stemmer
             # ps = PorterStemmer()
@@ -104,11 +113,15 @@ def train():
             #     if not word in stop_words:
             #         # Calls the porter algo to stem
             #         print(ps.stem(word) + " ")
+    for x in review:
+        print(x)
 
-            # Vectorization
-            vectorizer = TfidfVectorizer(stop_words='english')
-            print(vectorizer.fit([review],sentiment))
-            print(vectorizer.vocabulary_)            
+    # Vectorization
+    vectorizer = TfidfVectorizer(stop_words='english')
+    vectorizer.fit(review)
+    vectorizer.transform(review)
+    print(vectorizer.transform(review).shape)
+    print(vectorizer.vocabulary_)            
 
 if __name__ == '__main__':
     #get_recent_movies()
