@@ -113,7 +113,7 @@ def train():
             #     if not word in stop_words:
             #         # Calls the porter algo to stem
             #         print(ps.stem(word) + " ")
-    for x in review:
+    for x in sentiment:
         print(x)
 
     # Vectorization

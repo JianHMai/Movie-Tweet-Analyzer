@@ -84,8 +84,8 @@ def preprocess(location,name):
 
 # Function to train model using SVM
 def train():
-    X = []
-    y = []
+    review = []
+    sentiment = []
 
     location = "C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\dataset2.csv"
     with open(location, 'r') as csvfile: 
@@ -94,11 +94,11 @@ def train():
         next(csvreader)
         for row in csvreader:
             # Add review to list 
-            x.append(row[0])
+            review.append(row[0])
             # Add sentiment to list with 1 given positive and 0 given negative
             if row[1] == 'positive':
-                y.append(1)
-            else: y.append(0)
+                sentiment.append(1)
+            else: sentiment.append(0)
 
     # Vectorization
     vectorizer = TfidfVectorizer(stop_words='english')
