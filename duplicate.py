@@ -91,6 +91,20 @@ def train():
             review = row[0]
             sentiment = row[1]
 
+            # # Import stemmer
+            # ps = PorterStemmer()
+            # # Import list from NLTK library that contains stop words
+            # stop_words = set(stopwords.words('english'))
+            # # Open and reads file and split it into objects
+            # words =  nltk.word_tokenize(review)
+
+            # # Loop to go through list of words
+            # for word in words: 
+            #     # Check in word is a stop word
+            #     if not word in stop_words:
+            #         # Calls the porter algo to stem
+            #         print(ps.stem(word) + " ")
+
             # Vectorization
             vectorizer = TfidfVectorizer(stop_words='english')
             print(vectorizer.fit([review],sentiment))
