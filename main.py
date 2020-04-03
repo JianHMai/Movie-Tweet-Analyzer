@@ -11,6 +11,7 @@ import csv
 import re
 from textblob import TextBlob
 from sklearn.feature_extraction.text import TfidfVectorizer
+import string
 
 # function to retrieve list of current playing movies
 def get_recent_movies():
@@ -28,18 +29,17 @@ def get_recent_movies():
 # function to retrieve tweets
 def get_tweets(movie):
     # Starting date
-    begin_date = dt.date(2020,3,19)
+    begin_date = dt.date(2020,2,14)
 
     # Ending date
-    end_date = dt.date(2020,3,21)
-    limit = 1
+    end_date = dt.date(2020,2,16)
+    limit = 800
     lang = 'english'
-    
     # Hashtag to search 
     hashtag = "#" + movie
 
     # Filename to save 
-    filename = movie + ".txt"
+    filename = movie + ".csv"
     # Create and save file in filename
     files = open(filename, 'w', encoding='utf8')
 
@@ -47,21 +47,23 @@ def get_tweets(movie):
     tweets = query_tweets(hashtag, begindate = begin_date, enddate = end_date, limit = limit, lang = lang)
     # Each tweet returned
     for t in tweets:
-
+        text = t.text
         # Remove mentions and link from data
-        t.text = re.sub(r"(?:\@|https?\://)\S+", "", t.text)
+        text = re.sub(r"(?:\@|https?\://)\S+", "", text)
         # Remove media url from data
-        t.text = re.sub(r"pic.twitter.com\S+", "", t.text)
+        text = re.sub(r"pic.twitter.com\S+", "", text)
+        # Remove all punctuation from tweets
+        text = text.translate(str.maketrans('', '', string.punctuation))
 
         # If tweet is classified as English, save to the file
-        if TextBlob(t.text).detect_language() == 'en':
-            files.write(t.text + "\n")
+        if TextBlob(text).detect_language() == 'en':
+            files.write(text + ",")
     files.close()
 
 # Function to preprocess csv file
 def preprocess(location,name):
     # Filename to save 
-    filename = name[:-4] + "_new.txt"
+    filename = name[:-4] + "_new.csv"
     # Create and save file in filename
     files = open(filename, 'w', encoding='utf8')
 
@@ -82,22 +84,23 @@ def preprocess(location,name):
 
 # Function to train model using SVM
 def train():
-    with open("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\dataset.csv", 'r') as csvfile: 
+    location = "C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\dataset2.csv"
+    with open(location, 'r') as csvfile: 
         csvreader = csv.reader(csvfile)
         for row in csvreader:
             review = row[0]
             sentiment = row[1]
 
-            # TO DO
             # Vectorization
-            vectorizer = TfidfVectorizer
-            
+            vectorizer = TfidfVectorizer(stop_words='english')
+            print(vectorizer.fit_transform([review],sentiment))
+            print(vectorizer.vocabulary_)            
 
 if __name__ == '__main__':
     get_recent_movies()
     # Location to look for txt files
-    for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\"):
-        if file.endswith(".txt"):
+    for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\"):
+        if file.endswith(".csv"):
             # Pass in file location for every CSV file found
-            preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Analyzer\\", file),file)
+            preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\", file),file)
     train()
