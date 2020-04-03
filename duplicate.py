@@ -84,7 +84,7 @@ def preprocess(location,name):
 
 # Function to train model using SVM
 def train():
-    location = "C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\dataset.csv"
+    location = "C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\dataset2.csv"
     with open(location, 'r') as csvfile: 
         csvreader = csv.reader(csvfile)
         for row in csvreader:
@@ -97,10 +97,10 @@ def train():
             print(vectorizer.vocabulary_)            
 
 if __name__ == '__main__':
-    get_recent_movies()
+    #get_recent_movies()
     # Location to look for txt files
-    for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\"):
-        if file.endswith(".csv"):
+    #for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\"):
+        #if file.endswith(".csv"):
             # Pass in file location for every CSV file found
-            preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\", file),file)
+            #preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\", file),file)
     train()
