@@ -11,6 +11,7 @@ import csv
 import re
 from textblob import TextBlob
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn import svm
 import string
 
 # function to retrieve list of current playing movies
@@ -113,15 +114,14 @@ def train():
             #     if not word in stop_words:
             #         # Calls the porter algo to stem
             #         print(ps.stem(word) + " ")
-    for x in sentiment:
-        print(x)
 
     # Vectorization
     vectorizer = TfidfVectorizer(stop_words='english')
-    vectorizer.fit(review)
-    vectorizer.transform(review)
+    features = vectorizer.fit_transform(review).toarray()
+    print(features)
     print(vectorizer.transform(review).shape)
     print(vectorizer.vocabulary_)            
+    svm.SVC().fit(features,sentiment)
 
 if __name__ == '__main__':
     #get_recent_movies()
