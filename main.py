@@ -83,36 +83,10 @@ def preprocess(location,name):
             files.write(ps.stem(word) + " ")
     files.close()
 
-# Function to train model using SVM
-def train():
-    review = []
-    sentiment = []
-
-    location = "C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\dataset2.csv"
-    with open(location, 'r') as csvfile: 
-        csvreader = csv.reader(csvfile)
-        # Skip header row
-        next(csvreader)
-        for row in csvreader:
-            # Add review to list 
-            review.append(row[0])
-            # Add sentiment to list with 1 given positive and 0 given negative
-            if row[1] == 'positive':
-                sentiment.append(1)
-            else: sentiment.append(0)
-
-    # Vectorization
-    vectorizer = TfidfVectorizer(stop_words='english')
-    features = vectorizer.fit_transform(review).toarray()
-
-    # Implement SVM            
-    svm.SVC().fit(features,sentiment)          
-
-if __name__ == '__main__':
-    get_recent_movies()
-    # Location to look for txt files
-    for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\"):
-        if file.endswith(".csv"):
-            # Pass in file location for every CSV file found
-            preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\", file),file)
-    train()
+# if __name__ == '__main__':
+#     get_recent_movies()
+#     # Location to look for txt files
+#     for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\"):
+#         if file.endswith(".csv"):
+#             # Pass in file location for every CSV file found
+#             preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\", file),file)
