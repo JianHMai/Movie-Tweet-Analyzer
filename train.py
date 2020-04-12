@@ -3,6 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import svm
 import urllib.request as request
 import codecs
+import pickle
 
 # Function to train model using SVM
 def train():
@@ -29,6 +30,8 @@ def train():
 
     # Implement Linear SVM            
     model = svm.LinearSVC().fit(features,sentiment)
+    # Save model 
+    pickle.dump(model, open('model.sav', 'wb'))
 
 if __name__ == '__main__':
     train()

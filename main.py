@@ -81,10 +81,10 @@ def preprocess(location,name):
             files.write(ps.stem(word) + " ")
     files.close()
 
-# if __name__ == '__main__':
-#     get_recent_movies()
-#     # Location to look for txt files
-#     for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\"):
-#         if file.endswith(".csv"):
-#             # Pass in file location for every CSV file found
-#             preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\", file),file)
+if __name__ == '__main__':
+    get_recent_movies()
+    # Location to look for txt files
+    for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\"):
+        if file.endswith(".csv"):
+            # Pass in file location for every CSV file found
+            preprocess(os.path.join("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\", file),file)
