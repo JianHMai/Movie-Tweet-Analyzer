@@ -10,9 +10,7 @@ from nltk import word_tokenize
 import csv
 import re
 from textblob import TextBlob
-from sklearn.feature_extraction.text import TfidfVectorizer
 import string
-from sklearn import svm
 
 # function to retrieve list of current playing movies
 def get_recent_movies():
