@@ -26,7 +26,7 @@ def train():
     features = vectorizer.fit_transform(review).toarray()
 
     # Implement SVM            
-    print(svm.SVC().fit(features,sentiment))
+    print(svm.LinearSVC().fit(features,sentiment))
 
 if __name__ == '__main__':
     train()
