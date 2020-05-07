@@ -10,6 +10,8 @@ import numpy as np
 from sklearn.pipeline import Pipeline
 from nltk.corpus import stopwords 
 from nltk.stem import PorterStemmer 
+import string
+from nltk.tokenize import word_tokenize
 
 # Function to train model using SVM
 def get_data():
@@ -24,7 +26,7 @@ def get_data():
     next(csvreader)
     for row in csvreader:
         # Add review to list 
-        X.append(row[0])
+        X.append(preprocess(row[0]))
         # Add sentiment to list with 1 given positive and 0 given negative
         if row[1] == 'positive':
             y.append(1)
@@ -34,24 +36,26 @@ def get_data():
     return X_train, X_test, y_train, y_test  
 
 # Function to process tweets to remove stopwords and to stem
-# def preprocess(review):
-#     # Import stemmer
-#     ps = PorterStemmer()
-#     # Import list from NLTK library that contains stop words
-#     stop_words = set(stopwords.words('english'))
-
-#     for data in review:
-#         print(data)
-#         if not data in stop_words:
-#             processed = ps.stem(data) + " "
-#         break
-#     print(processed)
-#     return processed
+def preprocess(review):
+    processed = ""
+    words = word_tokenize(review)
+    # Import stemmer
+    ps = PorterStemmer()
+    # Import list from NLTK library that contains stop words
+    stop_words = set(stopwords.words('english'))
+    for word in words:
+        if not word in stop_words:
+            processed += ps.stem(word) + " "
+    processed = processed.replace('< br / >',' ')
+    processed = processed.translate(str.maketrans('', '', string.punctuation))
+    processed = " ".join(processed.split())
+    print(processed)
+    return processed
 
 # Used to classify and vectorize dataset with TF-IDF and SVM
 def train(X_train, y_train):
     # Used to vectorize words and remove stop words
-    vectorizer = TfidfVectorizer(stop_words='english')
+    vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1,2))
     # Used to implement SVM     
     SVM = svm.LinearSVC()
     # Used to build a composite estimator using vectorizer and SVM 
