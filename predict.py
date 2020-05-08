@@ -11,6 +11,7 @@ def predict():
     
     files = csv.reader(open('1917Movie_new.csv', encoding = 'utf8'), delimiter=',')
     for line in files:
+        # Using model to predict Tweeet positive or negative sentiment
         return(loaded_model.predict(line)[0])
 
 if __name__ == '__main__':
