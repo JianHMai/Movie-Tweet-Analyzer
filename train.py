@@ -6,7 +6,6 @@ import codecs
 import sklearn.metrics
 import pickle
 from sklearn.model_selection import train_test_split
-import numpy as np
 from sklearn.pipeline import Pipeline
 from nltk.corpus import stopwords 
 from nltk.stem import PorterStemmer 
@@ -37,25 +36,32 @@ def get_data():
 
 # Function to process tweets to remove stopwords and to stem
 def preprocess(review):
+    # Initalize empty string
     processed = ""
+    # Tokenize passed in review
     words = word_tokenize(review)
     # Import stemmer
     ps = PorterStemmer()
     # Import list from NLTK library that contains stop words
     stop_words = set(stopwords.words('english'))
+    # Go through each word in list 
     for word in words:
+        # If word is not a stop word,
         if not word in stop_words:
+            # Stem the word
             processed += ps.stem(word) + " "
+    # Replace all <br/> with an empty space
     processed = processed.replace('< br / >',' ')
+    # Remove all punctuation
     processed = processed.translate(str.maketrans('', '', string.punctuation))
+    # Remove all white space > 1
     processed = " ".join(processed.split())
-    print(processed)
     return processed
 
 # Used to classify and vectorize dataset with TF-IDF and SVM
 def train(X_train, y_train):
-    # Used to vectorize words and remove stop words
-    vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1,2))
+    # Used to vectorize words
+    vectorizer = TfidfVectorizer()
     # Used to implement SVM     
     SVM = svm.LinearSVC()
     # Used to build a composite estimator using vectorizer and SVM 
