@@ -61,7 +61,7 @@ def preprocess(review):
 # Used to classify and vectorize dataset with TF-IDF and SVM
 def train(X_train, y_train):
     # Used to vectorize words
-    vectorizer = TfidfVectorizer()
+    vectorizer = TfidfVectorizer(ngram_range=(2,2))
     # Used to implement SVM     
     SVM = svm.LinearSVC()
     # Used to build a composite estimator using vectorizer and SVM 
