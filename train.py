@@ -1,7 +1,6 @@
 import csv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import svm
-import urllib.request as request
 import codecs
 import sklearn.metrics
 import pickle
@@ -18,18 +17,19 @@ def get_data():
     X = []
     y = []
 
-    url = "https://raw.githubusercontent.com/JianHMai/Movie-Tweet-Sentiment-Analysis/master/dataset.csv"
-    # Retrieve csv file from URL
-    csvreader = csv.reader(codecs.iterdecode(request.urlopen(url),'utf-8'))
-    # Skip header row
-    next(csvreader)
-    for row in csvreader:
-        # Add review to list 
-        X.append(preprocess(row[0]))
-        # Add sentiment to list with 1 given positive and 0 given negative
-        if row[1] == 'positive':
-            y.append(1)
-        else: y.append(0)       
+    # Retrieve and open csv file 
+    with open('dataset.csv', encoding='utf8') as csvfile: 
+        csvreader = csv.reader(csvfile, delimiter = ',')
+        # Skip header row
+        next(csvreader)
+        for row in csvreader:
+            # Add review to list 
+            X.append(preprocess(row[0]))
+            # Add sentiment to list with 1 given positive and 0 given negative
+            if row[1] == 'positive':
+                y.append(1)
+            else: y.append(0)       
+    
     # Seperate training data with 80% and test data with 20% of dataset
     X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.20)
     return X_train, X_test, y_train, y_test  

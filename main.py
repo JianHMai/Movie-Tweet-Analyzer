@@ -83,7 +83,7 @@ def preprocess(location,name):
 
 if __name__ == '__main__':
     get_recent_movies()
-    # Location to look for txt files
+    # Location to look for CSV files
     for file in os.listdir("C:\\Users\\Jian\\Desktop\\Movie-Tweet-Sentiment-Analysis\\"):
         if file.endswith(".csv"):
             # Pass in file location for every CSV file found

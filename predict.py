@@ -25,5 +25,7 @@ if __name__ == '__main__':
     # Look for CSV files in current folder
     result = glob.glob('*.{}'.format('csv'))
     for file in result:
-        # Call each file found in the folder
-        predict(file)
+        # Skip dataset.csv
+        if(file != 'dataset.csv'):
+            # Call each file found in the folder
+            predict(file)
