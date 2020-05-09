@@ -1,16 +1,15 @@
 import joblib
-import urllib.request as request
 import csv
+import os
+import glob
 
-def predict():
+def predict(filename):
     total = 0
-    # Retrieve model from link
-    #model = "https://github.com/JianHMai/Movie-Tweet-Sentiment-Analysis/blob/master/model.sav?raw=true"
-    # Save it on computer
-    #request.urlretrieve(model, "model.sav")
+    # Load model
     loaded_model = joblib.load("model.sav")
-    
-    files = csv.reader(open('1917Movie_new.csv', encoding = 'utf8'), delimiter=',')
+
+    # Open CSV files
+    files = csv.reader(open(filename, encoding = 'utf8'), delimiter=',')
     # Iterate through each review in CSV
     for line in files:
         # Using model to predict Tweeet positive or negative sentiment
@@ -19,8 +18,12 @@ def predict():
     for num in sentiment:
         # Collect total of the whole document
         total += num
-    # Return the document sentiment
-    return (total/len(sentiment))
+    # Return file name and sentiment for whole document
+    return print(str(filename).replace('.csv', ": ") + str((total/len(sentiment))))
 
 if __name__ == '__main__':
-    print(predict())
+    # Look for CSV files in current folder
+    result = glob.glob('*.{}'.format('csv'))
+    for file in result:
+        # Call each file found in the folder
+        predict(file)
