@@ -3,7 +3,7 @@ import csv
 import os
 import glob
 
-def predict(filename):
+def predict(filename, name):
     total = 0
     # Load model
     loaded_model = joblib.load("model.sav")
@@ -19,13 +19,14 @@ def predict(filename):
         # Collect total of the whole document
         total += num
     # Return file name and sentiment for whole document
-    return print(str(filename).replace('.csv', ": ") + str(round(total/len(sentiment),4)))
+    return print(str(name).replace('.csv', ": ") + str(round(total/len(sentiment),4)))
 
 if __name__ == '__main__':
-    # Look for CSV files in current folder
-    result = glob.glob('*.{}'.format('csv'))
-    for file in result:
-        # Skip dataset.csv
-        if(file != 'dataset.csv'):
-            # Call each file found in the folder
-            predict(file)
+    # Look through roots and subdirectory
+    for root, dirs, files in os.walk("."):
+        # Loop through filenames
+        for name in files:
+            # If the filename ends with .csv and not called dataset.csv
+            if name.endswith(".csv") and name != ('dataset.csv'):
+                # Call each csv file found
+                predict(root + os.sep + name, name)
