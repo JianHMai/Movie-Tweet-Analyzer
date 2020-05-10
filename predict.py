@@ -19,7 +19,7 @@ def predict(filename):
         # Collect total of the whole document
         total += num
     # Return file name and sentiment for whole document
-    return print(str(filename).replace('.csv', ": ") + str((total/len(sentiment))))
+    return print(str(filename).replace('.csv', ": ") + str(round(total/len(sentiment),4)))
 
 if __name__ == '__main__':
     # Look for CSV files in current folder
