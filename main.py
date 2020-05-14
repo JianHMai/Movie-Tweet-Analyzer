@@ -28,10 +28,10 @@ def get_recent_movies():
 # function to retrieve tweets
 def get_tweets(movie):
     # Starting date
-    begin_date = dt.date(2020,2,14)
+    begin_date = dt.date.today()-dt.timedelta(days=7)
 
     # Ending date
-    end_date = dt.date(2020,2,24)
+    end_date = dt.date.today()
     lang = 'english'
     # Hashtag to search 
     hashtag = "#" + movie
@@ -77,5 +77,4 @@ def preprocess(tweet):
     return tweet
 
 if __name__ == '__main__':
-    #get_recent_movies()
-    get_tweets("1917Movie")
+    get_recent_movies()
