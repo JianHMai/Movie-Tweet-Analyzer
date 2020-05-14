@@ -37,9 +37,9 @@ def get_tweets(movie):
     hashtag = "#" + movie
 
     # Filename to save 
-    filename = movie + ".csv"
+    file_location = "tweets/" + movie + ".csv"
     # Create and save file in filename
-    files = open(filename, 'w', encoding='utf8')
+    files = open(file_location, 'w', encoding='utf8')
 
     # Calls twitter scraper library to look for tweets
     tweets = query_tweets(hashtag, begindate = begin_date, enddate = end_date, lang = lang)
